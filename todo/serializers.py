@@ -8,6 +8,9 @@ class UserSerializers(serializers.ModelSerializer):
 
 
 class BoardSerializers(serializers.ModelSerializer):
+
+
+
     @property
     def user(self, obj):
         request = self.context.get('request', None)
@@ -17,7 +20,7 @@ class BoardSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = models.Board
-        fields = ('user', 'name')
+        fields =  ('name', )
 
 
 class TaskSerializers(serializers.ModelSerializer):

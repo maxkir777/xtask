@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from . import models
 
+
 class UserSerializers(serializers.ModelSerializer):
     class Meta:
         model = models.User
@@ -8,22 +9,17 @@ class UserSerializers(serializers.ModelSerializer):
 
 
 class BoardSerializers(serializers.ModelSerializer):
-    @property
-    def user(self, obj):
-        request = self.context.get('request', None)
-        print ('request12', request)
-        if request:
-            return request.user
+    user = serializers.SerializerMethodField()
+
+    def get_user(self, instance):
+        return self.context['request'].user.id
 
     class Meta:
         model = models.Board
-        fields = ('user', 'name')
+        fields = ('id', 'name', 'user')
 
 
 class TaskSerializers(serializers.ModelSerializer):
     class Meta:
-
         model = models.Task
         fields = ('name', 'descriptions', 'boards')
-
-

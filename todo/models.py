@@ -11,7 +11,7 @@ class User(AbstractUser):
 
 class Board(models.Model):
     name = models.CharField(max_length=200)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    user = models.ManyToManyField(User)
 
     def __str__(self):
         return str(self.id)

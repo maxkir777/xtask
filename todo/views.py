@@ -16,7 +16,7 @@ class UserListView(generics.ListCreateAPIView):
 
 
 class BoardViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
     queryset = models.Board.objects.all()
     serializer_class = serializers.BoardSerializers
 

@@ -9,17 +9,18 @@ class UserSerializers(serializers.ModelSerializer):
 
 
 class BoardSerializers(serializers.ModelSerializer):
-    user = serializers.SerializerMethodField()
-
-    def get_user(self, instance):
-        return self.context['request'].user.id
-
     class Meta:
         model = models.Board
-        fields = ('id', 'name', 'user')
+        fields = ('id', 'name')
+
+    def create(self, validated_data):
+        obj = models.Board.objects.create(**validated_data)
+        obj.users.add(self.context['request'].user)
+        obj.save()
+        return obj
 
 
 class TaskSerializers(serializers.ModelSerializer):
     class Meta:
         model = models.Task
-        fields = ('name', 'descriptions', 'boards')
+        fields = ('id', 'name', 'description', 'board')

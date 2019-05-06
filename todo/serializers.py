@@ -14,6 +14,8 @@ class BoardSerializers(serializers.ModelSerializer):
     def get_user(self, instance):
         return self.context['request'].user.id
 
+
+
     class Meta:
         model = models.Board
         fields = ('id', 'name', 'user')

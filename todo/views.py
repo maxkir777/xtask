@@ -2,7 +2,7 @@ from django.shortcuts import render
 from rest_framework import generics, permissions, status, viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from todo.permissions import IsOwnerOrReadOnly
+from todo.permissions import IsOwnerOrReadOnly, IsOwnerBoards
 
 from . import models
 from . import serializers
@@ -23,7 +23,7 @@ class BoardViewSet(viewsets.ModelViewSet):
 
 class TaskViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
-                          IsOwnerOrReadOnly,)
+                          IsOwnerOrReadOnly,IsOwnerBoards,)
     queryset = models.Task.objects.all()
     serializer_class = serializers.TaskSerializers
 

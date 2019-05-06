@@ -5,8 +5,8 @@ from todo.views import BoardViewSet, TaskViewSet
 from . import views
 
 router = DefaultRouter()
-router.register(r'boards', BoardViewSet, basename='attractions')
-router.register(r'tasks', TaskViewSet, basename='categories')
+router.register(r'boards', BoardViewSet, basename='boards')
+router.register(r'tasks', TaskViewSet, basename='tasks')
 urlpatterns = router.urls
 
 extended_urlpatterns = [

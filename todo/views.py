@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from rest_framework import generics, permissions, status
+from rest_framework import generics, permissions, status, viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from todo.permissions import IsOwnerOrReadOnly
@@ -15,13 +15,13 @@ class UserListView(generics.ListCreateAPIView):
     serializer_class = serializers.UserSerializers
 
 
-class BoardListView(generics.ListCreateAPIView):
+class BoardViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     queryset = models.Board.objects.all()
     serializer_class = serializers.BoardSerializers
 
 
-class TaskListView(generics.ListCreateAPIView):
+class TaskViewSet(viewsets.ModelViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,
                           IsOwnerOrReadOnly,)
     queryset = models.Task.objects.all()

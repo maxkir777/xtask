@@ -75,7 +75,11 @@ class Service {
   static async getBoards() {
     const url = `${ENDPOINT}${API}boards/`;
     return Service.fetch(url, GET)
+  }
 
+  static async getDetailBoard(id) {
+    const url = `${ENDPOINT}${API}boards/${id}/`;
+    return Service.fetch(url, GET)
   }
 }
 

@@ -6,7 +6,6 @@ from . import views
 
 from rest_auth.registration.views import VerifyEmailView, RegisterView
 
-
 router = DefaultRouter()
 router.register(r'boards', BoardViewSet, basename='boards')
 router.register(r'lists', ListViewSet, basename='list')
@@ -21,9 +20,9 @@ extended_urlpatterns = [
 
     path('registration/', RegisterView.as_view(), name='account_signup'),
     re_path(r'^account-confirm-email/', VerifyEmailView.as_view(),
-         name='account_email_verification_sent'),
+            name='account_email_verification_sent'),
     re_path(r'^account-confirm-email/(?P<key>[-:\w]+)/$', VerifyEmailView.as_view(),
-         name='account_confirm_email'),
+            name='account_confirm_email'),
 ]
 
 urlpatterns.extend(extended_urlpatterns)

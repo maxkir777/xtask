@@ -53,7 +53,10 @@ class SignIn extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
+
+    const { authenticate } = this.props;
     console.log(this.state);
+    authenticate(this.state.login, this.state.password)
   };
 
   render() {
@@ -111,5 +114,9 @@ class SignIn extends React.Component {
     )
   }
 }
+
+SignIn.propTypes = {
+  // TODO: write prop types
+};
 
 export default withStyles(styles)(SignIn);

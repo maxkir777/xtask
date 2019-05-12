@@ -1,32 +1,9 @@
-function getCookie(name) {
-  let cookieValue = null;
-  if (document.cookie && document.cookie !== '') {
-    const cookies = document.cookie.split(';');
-    for (let i = 0; i < cookies.length; i++) {
-      const cookie = cookies[i].trim();
-      // Does this cookie string begin with the name we want?
-      if (cookie.substring(0, name.length + 1) === (`${name}=`)) {
-        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-        break;
-      }
-    }
-  }
-  return cookieValue;
-}
-
 const GET = 'GET';
 const POST = 'POST';
 // const PATCH = 'PATCH';
 
-const ENDPOINT = '/';
+const ENDPOINT = 'http://127.0.0.1:8000/';
 const API = 'api/v1/';
-
-function csrfSafeMethod(method) {
-  // these HTTP methods do not require CSRF protection
-  return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-}
-
-const csrftoken = getCookie('csrftoken');
 
 function createUrlString(url, getParams = null) {
   if (!getParams || Object.keys(getParams).length === 0) return url;
@@ -49,9 +26,8 @@ class Service {
     headers = headers || {
       Accept: 'application/json',
       'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
     };
-    // eslint-disable-next-line no-param-reassign
-    if (!csrfSafeMethod(method)) headers['X-CSRFToken'] = csrftoken;
     return fetch(url, {
       headers,
       method,
@@ -71,11 +47,11 @@ class Service {
 
   static async auth(login, password) {
     const data = {
-      login,
+      username: login,
       password
     };
     const url = `${ENDPOINT}${API}token/`;
-    return Service.fetch(url, POST, data);
+    return Service.fetch(url, POST, JSON.stringify(data));
   }
 }
 

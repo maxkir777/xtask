@@ -67,7 +67,7 @@ class SignIn extends React.Component {
     authenticate(this.state.login, this.state.password)
       .then(() => {
         // TODO
-        // history.push('/boards')
+        history.push('/boards')
       })
   };
 

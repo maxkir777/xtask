@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,6 +11,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
+import { history } from '../../store/configureStore'
 
 const styles = theme => ({
   main: {
@@ -46,6 +46,14 @@ const styles = theme => ({
 });
 
 class SignIn extends React.Component {
+  constructor(props) {
+    super(props);
+
+    if (localStorage.getItem('token') !== null) {
+      history.push('/boards')
+    }
+  }
+
   state = {
     login: "",
     password: "",
@@ -57,6 +65,10 @@ class SignIn extends React.Component {
     const { authenticate } = this.props;
     console.log(this.state);
     authenticate(this.state.login, this.state.password)
+      .then(() => {
+        // TODO
+        // history.push('/boards')
+      })
   };
 
   render() {

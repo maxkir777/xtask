@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom'
-import SignIn from './components/signIn/signInPage'
+import SignIn from './components/SignIn/SignInContainer'
 
 const App = () => (
   <div>

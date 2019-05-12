@@ -1,3 +1,5 @@
+import {registration} from "./components/SighUp/SighUpActions";
+
 const GET = 'GET';
 const POST = 'POST';
 // const PATCH = 'PATCH';
@@ -58,9 +60,22 @@ class Service {
     return Service.fetch(url, POST, JSON.stringify(data));
   }
 
+
+  static async registration(login, email, password1, password2) {
+    const data = {
+      username: login,
+      email: email,
+      password1,
+      password2
+    };
+    const url = `${ENDPOINT}${API}registration/`;
+    return Service.fetch(url, POST, JSON.stringify(data));
+  }
+
   static async getBoards() {
     const url = `${ENDPOINT}${API}boards/`;
     return Service.fetch(url, GET)
+
   }
 }
 

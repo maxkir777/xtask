@@ -27,6 +27,11 @@ class Service {
       Accept: 'application/json',
       'Content-Type': 'application/json',
     };
+
+    // TODO: Better solution
+    const token = localStorage.getItem('token');
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+
     return fetch(url, {
       headers,
       method,
@@ -51,6 +56,11 @@ class Service {
     };
     const url = `${ENDPOINT}${API}token/`;
     return Service.fetch(url, POST, JSON.stringify(data));
+  }
+
+  static async getBoards() {
+    const url = `${ENDPOINT}${API}boards/`;
+    return Service.fetch(url, GET)
   }
 }
 

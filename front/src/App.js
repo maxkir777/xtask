@@ -20,3 +20,7 @@ const App = () => (
 );
 
 export default App
+
+
+//Todo add cart into board rout boards - button create new board
+//

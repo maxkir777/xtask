@@ -24,7 +24,7 @@ class BoardSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = models.Board
-        fields = ('id', 'name')
+        fields = ('id', 'name', 'lists')
 
     def create(self, validated_data):
         obj = models.Board.objects.create(**validated_data)
@@ -36,7 +36,7 @@ class ListSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = models.List
-        fields = ('id', 'name', 'board')
+        fields = ('id', 'name', 'tasks')
 
 
     def create(self, validated_data):
@@ -49,4 +49,4 @@ class ListSerializers(serializers.ModelSerializer):
 class TaskSerializers(serializers.ModelSerializer):
     class Meta:
         model = models.Task
-        fields = ('id', 'name', 'description', 'list')
+        fields = ('id', 'name', 'description',)

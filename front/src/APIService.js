@@ -72,7 +72,13 @@ class Service {
     return Service.fetch(url, POST, JSON.stringify(data));
   }
 
-
+  static async addBoard(name) {
+    const data = {
+      name
+    };
+    const url = `${ENDPOINT}${API}boards/`;
+    return Service.fetch(url, POST).getBoards()
+  }
 
   static async getBoards() {
     const url = `${ENDPOINT}${API}boards/`;

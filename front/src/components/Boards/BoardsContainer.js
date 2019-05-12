@@ -5,7 +5,13 @@ import * as actions from './BoardsActions';
 import Component from './Boards';
 
 function mapStateToProps(state) {
-  return { };
+  const {
+    allUserBoards
+  } = state;
+
+  return {
+    allUserBoards
+  };
 }
 
 function mapDispatchToProps(dispatch) {

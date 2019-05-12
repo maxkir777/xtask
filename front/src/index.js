@@ -22,8 +22,8 @@ if (mountApp) {
 
 if (process.env.NODE_ENV !== 'production') {
   // eslint-disable-next-line global-require, import/no-extraneous-dependencies
-  const { whyDidYouUpdate } = require('why-did-you-update');
-  whyDidYouUpdate(React);
+  // const { whyDidYouUpdate } = require('why-did-you-update');
+  // whyDidYouUpdate(React);
 
   // eslint-disable-next-line global-require
   const showDevTools = require('./reduxDevTools/showDevTools').default;

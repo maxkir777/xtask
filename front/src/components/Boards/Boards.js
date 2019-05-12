@@ -1,15 +1,19 @@
 import React from 'react';
 
-class Boards extends React.Component{
-  constructor(props) {
-    super(props);
-
+class Boards extends React.Component {
+  componentDidMount() {
     const { getBoards } = this.props;
     getBoards()
   }
 
   render() {
-    return (<p>Boards</p>)
+    const { allUserBoards } = this.props;
+
+    const listBoards = allUserBoards.map(board => <p>{board.name}</p>);
+
+    return (
+      listBoards
+    )
   }
 }
 

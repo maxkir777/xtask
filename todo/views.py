@@ -2,8 +2,6 @@ from rest_framework import generics, permissions, viewsets
 from todo.permissions import IsOwnerOrReadOnly, IsOwnerBoards, IsOwnerLists
 from . import models
 from . import serializers
-from rest_auth.registration.views import RegisterView
-
 
 
 
@@ -12,11 +10,6 @@ class UserListView(generics.ListCreateAPIView):
                           IsOwnerOrReadOnly,)
     queryset = models.User.objects.all()
     serializer_class = serializers.UserSerializers
-
-class Register(RegisterView):
-    queryset = models.User.objects.all()
-    serializer_class = serializers.CustomRegisterSerializer
-
 
 
 class BoardViewSet(viewsets.ModelViewSet):

@@ -5,9 +5,7 @@ import * as actions from './SignInActions';
 import Component from './SignIn';
 
 function mapStateToProps(state) {
-  return {
-
-  };
+  return { };
 }
 
 function mapDispatchToProps(dispatch) {

@@ -115,6 +115,11 @@ REST_FRAMEWORK = {
     ],
 }
 
+
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_REQUIRED = True
+
+
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
 }
@@ -138,6 +143,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'todo.User'
+
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 

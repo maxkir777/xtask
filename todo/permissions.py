@@ -12,8 +12,8 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
         if request.method in permissions.SAFE_METHODS:
             return True
         # Write permissions are only allowed to the owner of the snippet.
-        return obj.owner == request.user
-
+        if obj.users.filter(id__exact=request.user.id):
+            return True
 
 class IsOwnerBoards(permissions.BasePermission):
 
@@ -24,7 +24,19 @@ class IsOwnerBoards(permissions.BasePermission):
         #TODO check users into request.user.id user which writen and want make
         #TODO if request.user.id inside board.users after return true else false
 
-        board_id = request.data['boards']
+        board_id = request.data['board']
         board = models.Board.objects.get(id=board_id)
-        if board.user.filter(id__exact=request.user.id):
+        if board.users.filter(id__exact=request.user.id):
             return True
+
+
+class IsOwnerLists(permissions.BasePermission):
+
+    def has_permission(self, request, view):
+
+        lists_id = request.data['list']
+        lists = models.List.objects.get(id=lists_id)
+        if lists.board.users.filter(id__exact=request.user.id):
+            return True
+        else:
+            return False

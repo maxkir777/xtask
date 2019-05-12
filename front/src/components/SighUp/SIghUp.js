@@ -9,6 +9,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
+import { history } from '../../store/configureStore'
+
 
 const styles = theme => ({
     main: {
@@ -56,6 +58,9 @@ class SIghUp extends React.Component {
         const { registration } = this.props;
         console.log(this.state);
         registration(this.state.login, this.state.email, this.state.password1, this.state.password2)
+            .then(() => {
+                history.push('/')
+            })
     };
 
     render() {
@@ -84,9 +89,8 @@ class SIghUp extends React.Component {
                             />
                         </FormControl>
                         <FormControl margin="normal" required fullWidth>
-                            <InputLabel htmlFor="login">Email</InputLabel>
+                            <InputLabel htmlFor="email">Email</InputLabel>
                             <Input
-                                autoFocus
                                 id="email"
                                 name="email"
                                 autoComplete="email"

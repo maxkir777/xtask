@@ -4,6 +4,7 @@ import SignIn from './components/SignIn/SignInContainer'
 
 import SignUp from './components/SighUp/SighUpContainer'
 import Boards from './components/Boards/BoardsContainer'
+import LogOut from './components/LogOut/LogOut'
 
 const App = () => (
   <div>
@@ -11,7 +12,7 @@ const App = () => (
       <Route exact path="/" component={SignIn} />
 
       <Route exact path="/registration" component={SignUp}/>
-
+      <Route exact path = "/logout" component = {LogOut}/>
       <Route exact path="/boards" component={Boards}/>
 
     </main>

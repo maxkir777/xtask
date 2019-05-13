@@ -1,15 +1,15 @@
 from django.urls import path, re_path
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt import views as jwt_views
-from todo.views import BoardViewSet, TaskViewSet, ListViewSet
+from todo.views import BoardViewSet, CardViewSet, ListViewSet
 from . import views
 
 from rest_auth.registration.views import VerifyEmailView, RegisterView
 
 router = DefaultRouter()
-router.register(r'boards', BoardViewSet, basename='boards')
-router.register(r'lists', ListViewSet, basename='list')
-router.register(r'tasks', TaskViewSet, basename='tasks')
+router.register('boards', BoardViewSet, basename='boards')
+router.register('lists', ListViewSet, basename='lists')
+router.register('cards', CardViewSet, basename='cards')
 
 urlpatterns = router.urls
 

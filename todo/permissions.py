@@ -2,6 +2,11 @@ from rest_framework import permissions
 from . import models
 
 
+class BoardPermissions(permissions.BasePermission):
+    def has_permission(self, request, view):
+        return True
+
+
 class IsOwnerOrReadOnly(permissions.BasePermission):
     """
     Custom permission to only allow owners of an object to edit it.
@@ -20,7 +25,7 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
 class IsOwnerBoards(permissions.BasePermission):
 
     def has_permission(self, request, view):
-        board_id = request.data['board']
+        board_id = request.data.get('board')
         board = models.Board.objects.get(id=board_id)
         if board.users.filter(id__exact=request.user.id):
             return True

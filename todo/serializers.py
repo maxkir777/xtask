@@ -3,6 +3,7 @@ from . import models
 from rest_auth.registration.serializers import RegisterSerializer
 
 
+# TODO: Review
 class CustomRegisterSerializer(RegisterSerializer):
     email = serializers.EmailField(required=True)
 
@@ -14,45 +15,51 @@ class CustomRegisterSerializer(RegisterSerializer):
         }
 
 
-class UserSerializers(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.User
-        fields = ('email', 'username')
+        fields = '__all__'
 
 
-class TaskSerializers(serializers.ModelSerializer):
+class CardSerializer(serializers.ModelSerializer):
     class Meta:
-        model = models.Task
-        fields = ('id', 'name', 'description',)
+        model = models.Card
+        fields = '__all__'
 
 
-class ListSerializers(serializers.ModelSerializer):
-    tasks = TaskSerializers(read_only=True)
+# TODO: Get cards = serializers.SerializerMethodField()
+class DetailListSerializer(serializers.ModelSerializer):
+    cards = serializers.SerializerMethodField()
+
+    def get_cards(self, obj):
+        serializer = CardSerializer(models.Card.objects.filter(list=obj), many=True)
+        return serializer.data
 
     class Meta:
         model = models.List
-        fields = ('id', 'name', 'tasks')
+        fields = '__all__'
+
+
+class BoardSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Board
+        fields = ('id', 'title')
 
     def create(self, validated_data):
-        obj = models.List.objects.create(**validated_data)
-        obj.boards.objects.add(self.context['request'].list)
+        obj = models.Board.objects.create(**validated_data)
+        obj.owners.add(self.context.get('request').user)
         obj.save()
         return obj
 
 
-class BoardSerializers(serializers.ModelSerializer):
+class DetailBoardSerializer(serializers.ModelSerializer):
     lists = serializers.SerializerMethodField()
 
     def get_lists(self, obj):
-        serializer = ListSerializers(models.List.objects.filter(boards=obj), many=True)
+        serializer = DetailListSerializer(models.List.objects.filter(board=obj), many=True)
         return serializer.data
 
     class Meta:
         model = models.Board
-        fields = ('id', 'name', 'lists')
-
-    def create(self, validated_data):
-        obj = models.Board.objects.create(**validated_data)
-        obj.users.add(self.context['request'].user)
-        obj.save()
-        return obj
+        fields = '__all__'
+        read_only_fields = ('owners',)

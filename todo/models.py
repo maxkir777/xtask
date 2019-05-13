@@ -3,32 +3,33 @@ from django.db import models
 
 
 class User(AbstractUser):
-    name = models.CharField(blank=True, max_length=255)
+    name = models.CharField(max_length=255)
 
     def __str__(self):
         return str(self.id)
 
 
 class Board(models.Model):
-    name = models.CharField(max_length=200)
-    users = models.ManyToManyField(User)
+    title = models.CharField(max_length=200)
+    owners = models.ManyToManyField(User)
+    public = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.id)
 
 
 class List(models.Model):
-    name = models.CharField(max_length=200)
-    boards = models.ForeignKey(Board, on_delete=models.CASCADE,)
+    title = models.CharField(max_length=200)
+    board = models.ForeignKey(Board, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.id)
 
 
-class Task(models.Model):
-    name = models.CharField(max_length=200)
-    description = models.TextField()
-    lists = models.ForeignKey(List, on_delete=models.CASCADE, null=True)
+class Card(models.Model):
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    list = models.ForeignKey(List, on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.id)

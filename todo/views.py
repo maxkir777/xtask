@@ -1,57 +1,47 @@
-from rest_framework import generics, permissions, viewsets
+from rest_framework import generics, permissions, viewsets, status
 from todo.permissions import IsOwnerOrReadOnly, IsOwnerBoards, IsOwnerLists
 from . import models
 from . import serializers
 from rest_framework.response import Response
-from rest_framework.decorators import action
 
 
+# TODO: Review
 class UserListView(generics.ListCreateAPIView):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,
-                          IsOwnerOrReadOnly,)
+    # permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
     queryset = models.User.objects.all()
-    serializer_class = serializers.UserSerializers
+    serializer_class = serializers.UserSerializer
 
 
 class BoardViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
+    # TODO: def get_permissions: allow any for retrieve if board.public = True
+    # TODO: check owner
+    permission_classes = (permissions.IsAuthenticated,)
     queryset = models.Board.objects.all()
-    serializer_class = serializers.BoardSerializers
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return serializers.BoardSerializer
+        if self.action == 'retrieve':
+            return serializers.DetailBoardSerializer
+        return serializers.BoardSerializer
 
     def list(self, request, *args, **kwargs):
-        return Response(
-            self.serializer_class(self.queryset.filter(users__in=[request.user]), many=True)
-                .data
-        )
+        return Response(self.get_serializer(self.get_queryset().filter(owners__in=[request.user]), many=True).data)
 
-    @action(detail=True, methods=['post'])
-    def lists(self, request, *args, **kwargs):
-        board = self.get_object()
 
-        if request.method == 'POST':
-            new_list = models.List.objects.create(**request.data, boards=board)
-            new_list.save()
-            return Response(status=200)
-
+# TODO: Turn of creating new obj
 class ListViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
+    # TODO: check owner
+    permission_classes = (permissions.IsAuthenticated,)
     queryset = models.List.objects.all()
-    serializer_class = serializers.ListSerializers
 
-    @action(detail=True, methods=['post'])
-    def lists(self, request, *args, **kwargs):
-        listis = self.get_object()
-
-        if request.method == 'POST':
-            new_task = models.Task.objects.create(**request.data)
-            listis.lists.add(new_task)
-            listis.save()
-            return Response(status=200)
+    # TODO: def get_serializer_class
+    serializer_class = serializers.DetailListSerializer
 
 
-class TaskViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
-    queryset = models.Task.objects.all()
-    serializer_class = serializers.TaskSerializers
+class CardViewSet(viewsets.ModelViewSet):
+    # permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
+    queryset = models.Card.objects.all()
+    serializer_class = serializers.CardSerializer
 
 # Create your views here.

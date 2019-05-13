@@ -29,19 +29,28 @@ class BoardViewSet(viewsets.ModelViewSet):
         board = self.get_object()
 
         if request.method == 'POST':
-            new_list = models.List.objects.create(**request.data)
-            board.lists.add(new_list)
-            board.save()
+            new_list = models.List.objects.create(**request.data, boards=board)
+            new_list.save()
             return Response(status=200)
 
 class ListViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
     queryset = models.List.objects.all()
     serializer_class = serializers.ListSerializers
 
+    @action(detail=True, methods=['post'])
+    def lists(self, request, *args, **kwargs):
+        listis = self.get_object()
+
+        if request.method == 'POST':
+            new_task = models.Task.objects.create(**request.data)
+            listis.lists.add(new_task)
+            listis.save()
+            return Response(status=200)
+
 
 class TaskViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
     queryset = models.Task.objects.all()
     serializer_class = serializers.TaskSerializers
 

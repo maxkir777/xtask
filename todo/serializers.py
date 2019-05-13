@@ -19,19 +19,33 @@ class UserSerializers(serializers.ModelSerializer):
         model = models.User
         fields = ('email', 'username')
 
+
+class TaskSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = models.Task
+        fields = ('id', 'name', 'description',)
+
+
 class ListSerializers(serializers.ModelSerializer):
+    tasks = TaskSerializers(read_only=True)
+
     class Meta:
         model = models.List
         fields = ('id', 'name', 'tasks')
 
     def create(self, validated_data):
         obj = models.List.objects.create(**validated_data)
-        obj.board.users.add(self.context['request'].user)
+        obj.boards.objects.add(self.context['request'].list)
         obj.save()
         return obj
 
+
 class BoardSerializers(serializers.ModelSerializer):
-    lists = ListSerializers(many=True, read_only=True)
+    lists = serializers.SerializerMethodField()
+
+    def get_lists(self, obj):
+        serializer = ListSerializers(models.List.objects.filter(boards=obj), many=True)
+        return serializer.data
 
     class Meta:
         model = models.Board
@@ -42,8 +56,3 @@ class BoardSerializers(serializers.ModelSerializer):
         obj.users.add(self.context['request'].user)
         obj.save()
         return obj
-
-class TaskSerializers(serializers.ModelSerializer):
-    class Meta:
-        model = models.Task
-        fields = ('id', 'name', 'description',)

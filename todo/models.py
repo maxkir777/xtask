@@ -9,9 +9,9 @@ class User(AbstractUser):
         return str(self.id)
 
 
-class Task(models.Model):
+class Board(models.Model):
     name = models.CharField(max_length=200)
-    description = models.TextField()
+    users = models.ManyToManyField(User)
 
     def __str__(self):
         return str(self.id)
@@ -19,16 +19,16 @@ class Task(models.Model):
 
 class List(models.Model):
     name = models.CharField(max_length=200)
-    tasks = models.ForeignKey(Task, on_delete=models.CASCADE, null=True)
+    boards = models.ForeignKey(Board, on_delete=models.CASCADE,)
 
     def __str__(self):
         return str(self.id)
 
 
-class Board(models.Model):
+class Task(models.Model):
     name = models.CharField(max_length=200)
-    users = models.ManyToManyField(User)
-    lists = models.ManyToManyField(List)
+    description = models.TextField()
+    lists = models.ForeignKey(List, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return str(self.id)

@@ -21,7 +21,6 @@ class BoardViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         return Response(
             self.serializer_class(self.queryset.filter(users__in=[request.user]), many=True)
-                .prefetch_related('lists')
                 .data
         )
 

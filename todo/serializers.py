@@ -13,14 +13,25 @@ class CustomRegisterSerializer(RegisterSerializer):
             'email': self.validated_data.get('email', ''),
         }
 
+
 class UserSerializers(serializers.ModelSerializer):
     class Meta:
         model = models.User
         fields = ('email', 'username')
 
+class ListSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = models.List
+        fields = ('id', 'name', 'tasks')
+
+    def create(self, validated_data):
+        obj = models.List.objects.create(**validated_data)
+        obj.board.users.add(self.context['request'].user)
+        obj.save()
+        return obj
 
 class BoardSerializers(serializers.ModelSerializer):
-
+    lists = ListSerializers(many=True, read_only=True)
 
     class Meta:
         model = models.Board
@@ -31,20 +42,6 @@ class BoardSerializers(serializers.ModelSerializer):
         obj.users.add(self.context['request'].user)
         obj.save()
         return obj
-
-class ListSerializers(serializers.ModelSerializer):
-
-    class Meta:
-        model = models.List
-        fields = ('id', 'name', 'tasks')
-
-
-    def create(self, validated_data):
-        obj = models.List.objects.create(**validated_data)
-        obj.board.users.add(self.context['request'].user)
-        obj.save()
-        return obj
-
 
 class TaskSerializers(serializers.ModelSerializer):
     class Meta:

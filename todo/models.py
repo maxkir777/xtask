@@ -34,10 +34,11 @@ class Card(models.Model):
     title = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     list = models.ForeignKey(List, on_delete=models.CASCADE)
+    sort_order = models.PositiveIntegerField('Сортировка', default=0)
 
     def __str__(self):
         return self.title
 
     class Meta:
-        ordering = ('list',)
+        ordering = ('list', '-sort_order')
 # Create your models here.

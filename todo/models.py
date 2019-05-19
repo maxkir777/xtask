@@ -15,15 +15,19 @@ class Board(models.Model):
     public = models.BooleanField(default=False)
 
     def __str__(self):
-        return str(self.id)
+        return self.title
 
 
 class List(models.Model):
     title = models.CharField(max_length=200)
     board = models.ForeignKey(Board, on_delete=models.CASCADE)
+    sort_order = models.PositiveIntegerField('Сортировка', default=0)
 
     def __str__(self):
-        return str(self.id)
+        return self.title
+
+    class Meta:
+        ordering = ['-sort_order', 'id']
 
 
 class Card(models.Model):
@@ -32,6 +36,8 @@ class Card(models.Model):
     list = models.ForeignKey(List, on_delete=models.CASCADE)
 
     def __str__(self):
-        return str(self.id)
+        return self.title
 
+    class Meta:
+        ordering = ('list',)
 # Create your models here.

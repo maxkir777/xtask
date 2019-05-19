@@ -14,6 +14,8 @@ const styles = {
   }
 };
 
+
+
 const Column = (props) => {
   const {classes, list} = props;
 

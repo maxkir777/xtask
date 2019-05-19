@@ -21,11 +21,11 @@ const MyCard = (props) => {
         (provided) => (
           <RootRef rootRef={provided.innerRef}>
             <ListItem
-              {...provided.droppableProps}
+              {...provided.draggableProps}
               {...provided.dragHandleProps}
             >
               <CardContent>
-                <Typography variant="h5" component="h2">
+                <Typography>
                   {card.title}
                 </Typography>
               </CardContent>

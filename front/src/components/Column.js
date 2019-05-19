@@ -27,10 +27,9 @@ const Column = (props) => {
         </Typography>
         <Droppable droppableId={list.id}>
           {
-
             (provided) => (
               <RootRef rootRef={provided.innerRef}>
-                <Card
+                <List
                   {...provided.droppableProps}
                 >
                   {
@@ -43,7 +42,7 @@ const Column = (props) => {
                     ))
                   }
                   {provided.placeholder}
-                </Card>
+                </List>
               </RootRef>
             )
           }

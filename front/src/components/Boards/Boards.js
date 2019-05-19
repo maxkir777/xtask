@@ -55,7 +55,7 @@ class Boards extends React.Component {
                 >
                     <CardContent>
                         <Typography gutterBottom variant="h5" component="h2">
-                            {board.name}
+                            {board.title}
                         </Typography>
                     </CardContent>
                 </ButtonBase>

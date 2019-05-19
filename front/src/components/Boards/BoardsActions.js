@@ -16,4 +16,3 @@ export function getBoards() {
   };
 }
 
-export

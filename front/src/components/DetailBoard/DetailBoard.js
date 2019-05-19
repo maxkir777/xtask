@@ -1,6 +1,6 @@
 import React from 'react';
 import {DragDropContext} from 'react-beautiful-dnd';
-import Column from '../Column';
+import Column from '../List';
 
 class DetailBoard extends React.Component {
   componentDidMount() {
@@ -9,7 +9,28 @@ class DetailBoard extends React.Component {
   }
 
   onDragEnd = (result) => {
-    console.log(result)
+    const {onCardDrop, match} = this.props;
+    const {destination, source, draggableId} = result;
+
+    if (!destination) {
+      return;
+    }
+
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+
+  console.log(result);
+  onCardDrop(
+    match.params.id,
+    draggableId, {
+    list: destination.droppableId,
+    sort_order: destination.index
+  })
+
   };
 
   render() {

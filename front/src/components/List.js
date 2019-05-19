@@ -10,13 +10,13 @@ import {List} from '@material-ui/core';
 
 const styles = {
   card: {
-    minWidth: 275,
+    width: 200,
   }
 };
 
 
 
-const Column = (props) => {
+const MyList = (props) => {
   const {classes, list} = props;
 
   return (
@@ -52,4 +52,4 @@ const Column = (props) => {
   );
 }
 
-export default withStyles(styles)(Column);
+export default withStyles(styles)(MyList);

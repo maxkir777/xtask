@@ -39,11 +39,11 @@ class ListViewSet(viewsets.ModelViewSet):
     # TODO: def get_serializer_class
     serializer_class = serializers.DetailListSerializer
 
+
 class CardViewSet(viewsets.ModelViewSet):
     # permission_classes = (permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly,)
     queryset = models.Card.objects.all()
     serializer_class = serializers.CardSerializer
-
 
 
 # Create your views here.

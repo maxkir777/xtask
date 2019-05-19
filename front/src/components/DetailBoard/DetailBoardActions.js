@@ -1,5 +1,5 @@
 import APIService from '../../APIService';
-import {FETCH_BOARD} from './DetailBoardActionsTypes';
+import {FETCH_BOARD, FETCH_CARD} from './DetailBoardActionsTypes';
 
 export function fetchDetailBoard(id) {
   return async (dispatch) => {
@@ -14,4 +14,20 @@ export function fetchDetailBoard(id) {
       console.log('ERROR!', e);
     }
   };
+}
+
+export function onCardDrop(boardId, cardId, cardData) {
+  return async (dispatch) => {
+    try {
+      await APIService.editCard(cardId, cardData);
+      const newData = await APIService.getDetailBoard(boardId);
+      dispatch({
+        type: FETCH_BOARD,
+        payload: newData
+      });
+    } catch (e) {
+      // TODO: error popup
+      console.log('ERROR!', e);
+    }
+  }
 }

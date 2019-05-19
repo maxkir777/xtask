@@ -2,7 +2,7 @@ import {registration} from "./components/SighUp/SighUpActions";
 
 const GET = 'GET';
 const POST = 'POST';
-// const PATCH = 'PATCH';
+const PATCH = 'PATCH';
 
 const ENDPOINT = 'http://127.0.0.1:8000/';
 const API = 'api/v1/';
@@ -88,6 +88,11 @@ class Service {
   static async getDetailBoard(id) {
     const url = `${ENDPOINT}${API}boards/${id}/`;
     return Service.fetch(url, GET)
+  }
+
+  static async editCard(id, data) {
+    const url = `${ENDPOINT}${API}cards/${id}/`;
+    return Service.fetch(url, PATCH, JSON.stringify(data))
   }
 }
 

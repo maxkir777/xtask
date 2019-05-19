@@ -1,1 +1,2 @@
 export const FETCH_BOARD = 'FETCH_BOARD-DETAIL-BOARD';
+export const FETCH_CARD = 'FETCH_CARD-BOARDS';

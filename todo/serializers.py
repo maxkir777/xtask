@@ -27,7 +27,7 @@ class CardSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
-# TODO: Get cards = serializers.SerializerMethodField()
+# TODO: Lazy loading
 class DetailListSerializer(serializers.ModelSerializer):
     cards = serializers.SerializerMethodField()
 

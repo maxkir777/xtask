@@ -63,6 +63,23 @@ class DetailListSerializer(serializers.ModelSerializer):
         model = models.List
         fields = '__all__'
 
+    def update(self, instance, validated_data):
+        new_order = validated_data.get('sort_order')
+        if new_order is not None:
+            modifications = models.List.objects.filter(board=instance.board).exclude(id=instance.id)
+            up = modifications.filter(sort_order__gt=instance.sort_order, sort_order__lte=new_order)
+            down = modifications.filter(sort_order__gte=new_order, sort_order__lt=instance.sort_order)
+
+            for c in up:
+                c.sort_order -= 1
+                c.save()
+
+            for c in down:
+                c.sort_order += 1
+                c.save()
+
+        return super().update(instance, validated_data)
+
 
 class BoardSerializer(serializers.ModelSerializer):
     class Meta:

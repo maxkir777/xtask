@@ -94,6 +94,11 @@ class Service {
     const url = `${ENDPOINT}${API}cards/${id}/`;
     return Service.fetch(url, PATCH, JSON.stringify(data))
   }
+
+  static async editList(id, data) {
+    const url = `${ENDPOINT}${API}lists/${id}/`;
+    return Service.fetch(url, PATCH, JSON.stringify(data))
+  }
 }
 
 export default Service;

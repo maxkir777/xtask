@@ -27,7 +27,7 @@ class List(models.Model):
         return self.title
 
     class Meta:
-        ordering = ['sort_order', 'id']
+        ordering = ('sort_order', 'id')
 
 
 class Card(models.Model):
@@ -40,5 +40,5 @@ class Card(models.Model):
         return self.title
 
     class Meta:
-        ordering = ('list', 'sort_order')
+        ordering = ('sort_order', 'id')
 # Create your models here.

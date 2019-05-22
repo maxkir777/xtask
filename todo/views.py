@@ -20,8 +20,6 @@ class BoardViewSet(viewsets.ModelViewSet):
     queryset = models.Board.objects.all()
 
     def get_serializer_class(self):
-        if self.action == 'list':
-            return serializers.BoardSerializer
         if self.action == 'retrieve':
             return serializers.DetailBoardSerializer
         return serializers.BoardSerializer

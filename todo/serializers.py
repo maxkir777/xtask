@@ -28,18 +28,26 @@ class CardSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
         new_order = validated_data.get('sort_order')
-        print('old order', instance.sort_order, 'new order', new_order)
-        if new_order is not None:
-            modifications = models.Card.objects.filter(list=instance.list.id).exclude(id=instance.id)
-            down = modifications.filter(sort_order__gte=new_order, sort_order__lt=instance.sort_order)
+        new_list = validated_data.get('list')
+        if new_order is not None and new_list is not None:
+            if new_list.id == instance.list.id:
+                modifications = models.Card.objects.filter(list=instance.list).exclude(id=instance.id)
+                up = modifications.filter(sort_order__gt=instance.sort_order, sort_order__lte=new_order)
+                down = modifications.filter(sort_order__gte=new_order, sort_order__lt=instance.sort_order)
+
+            else:
+                modifications = models.Card.objects.exclude(id=instance.id)
+                up = modifications.filter(sort_order__gt=instance.sort_order, list=instance.list)
+                down = modifications.filter(sort_order__gte=new_order, list=new_list)
+
+            for c in up:
+                c.sort_order -= 1
+                c.save()
+
             for c in down:
                 c.sort_order += 1
                 c.save()
 
-            up = modifications.filter(sort_order__gt=instance.sort_order, sort_order__lte=new_order)
-            for c in up:
-                c.sort_order -= 1
-                c.save()
         return super().update(instance, validated_data)
 
 
